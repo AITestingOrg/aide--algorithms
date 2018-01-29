@@ -1,5 +1,6 @@
 package neo4j;
 
+import exceptions.UncoercibleTypeException;
 import interfaces.INode;
 import interfaces.IPath;
 import interfaces.IRecord;
@@ -16,32 +17,32 @@ public class Neo4jRecord implements IRecord {
     }
 
     @Override
-    public INode getNode(String key) throws Uncoercible {
+    public INode getNode(String key) throws UncoercibleTypeException {
         try {
             return new Neo4jNode(record.get(key).asNode());
         } catch (Uncoercible e) {
-            System.out.println("The retrieved Value is not a Path");
-            return null;
+            System.out.println("The retrieved Value is not a Node");
+            throw new UncoercibleTypeException("The retrieved Value is not a Node", e.getStackTrace());
         }
     }
 
     @Override
-    public IPath getPath(String key) throws Uncoercible {
+    public IPath getPath(String key) throws UncoercibleTypeException {
         try {
             return new Neo4jPath(record.get(key).asPath());
         } catch (Uncoercible e) {
             System.out.println("The retrieved Value is not a Path");
-            return null;
+            throw new UncoercibleTypeException("The retrieved Value is not a Path", e.getStackTrace());
         }
     }
 
     @Override
-    public IRelationship getRelationship(String key) throws Uncoercible {
+    public IRelationship getRelationship(String key) throws UncoercibleTypeException {
         try {
             return new Neo4jRelationship(record.get(key).asRelationship());
         } catch (Uncoercible e) {
-            System.out.println("The retrieved Value is not a Path");
-            return null;
+            System.out.println("The retrieved value is not a Relationship");
+            throw new UncoercibleTypeException("The retrieved value is not a Relationship", e.getStackTrace());
         }
     }
 }
