@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.7">
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/aist/incremental/learning/GeneralizationDemo.java">
+<error line="20" column="5" severity="warning" message="Missing a Javadoc comment." source="com.puppycrawl.tools.checkstyle.checks.javadoc.JavadocMethodCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/aist/incremental/learning/GeneralizationWithDirection.java">
+<error line="17" severity="warning" message="Line is longer than 100 characters (found 109)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/aist/incremental/learning/IGeneralizationStrategy.java">
+<error line="12" severity="warning" message="Line is longer than 100 characters (found 101)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/interfaces/IDriverAdapter.java">
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/interfaces/INode.java">
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/interfaces/IPath.java">
+<error line="22" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+<error line="29" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/interfaces/IRecord.java">
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/interfaces/IRelationship.java">
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/interfaces/IStatementResult.java">
+<error line="13" severity="warning" message="First sentence of Javadoc is missing an ending period." source="com.puppycrawl.tools.checkstyle.checks.javadoc.SummaryJavadocCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/neo4j/Neo4jDriverAdapter.java">
+<error line="1" column="9" severity="warning" message="Package name &apos;neo4j&apos; must match pattern &apos;^[a-z]+(\.[a-z][a-z0-9]*)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.PackageNameCheck"/>
+<error line="3" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - interfaces.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+<error line="7" severity="warning" message="Using the &apos;.*&apos; form of import should be avoided - org.neo4j.driver.v1.*." source="com.puppycrawl.tools.checkstyle.checks.imports.AvoidStarImportCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/neo4j/Neo4jNode.java">
+<error line="1" column="9" severity="warning" message="Package name &apos;neo4j&apos; must match pattern &apos;^[a-z]+(\.[a-z][a-z0-9]*)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.PackageNameCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/neo4j/Neo4jPath.java">
+<error line="1" column="9" severity="warning" message="Package name &apos;neo4j&apos; must match pattern &apos;^[a-z]+(\.[a-z][a-z0-9]*)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.PackageNameCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/neo4j/Neo4jRecord.java">
+<error line="1" column="9" severity="warning" message="Package name &apos;neo4j&apos; must match pattern &apos;^[a-z]+(\.[a-z][a-z0-9]*)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.PackageNameCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/neo4j/Neo4jRelationship.java">
+<error line="1" column="9" severity="warning" message="Package name &apos;neo4j&apos; must match pattern &apos;^[a-z]+(\.[a-z][a-z0-9]*)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.PackageNameCheck"/>
+</file>
+<file name="/Users/josepe/Projects/aide--algorithms/src/main/java/neo4j/Neo4jStatementResult.java">
+<error line="1" column="9" severity="warning" message="Package name &apos;neo4j&apos; must match pattern &apos;^[a-z]+(\.[a-z][a-z0-9]*)*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.PackageNameCheck"/>
+</file>
+</checkstyle>
