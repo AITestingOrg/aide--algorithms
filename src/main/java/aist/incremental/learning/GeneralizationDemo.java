@@ -21,11 +21,9 @@ public class GeneralizationDemo {
         GeneralizationDemo demo = new GeneralizationDemo();
         demo.setGeneralizationStrategy(new GeneralizationWithDirection(
             "bolt://localhost:7687", "neo4j", "password"));
-        int deleted = driver.deleteRelationship("name", "Toyota", "name", "person", "MOVE");
-        System.out.println(deleted);
-        driver.createRelationship("name", "Toyota", "name", "car", "EX");
-        INode n = driver.getNode(2066);
-        System.out.println(n);
+
+        IRelationship r = driver.getRelationship(2229);
+        System.out.println(r);
         List<INode> list = driver.getRelatedNodes("name", "car");
         System.out.println(driver.getRelationshipsBetween("name", "car", "name", "transportation"));
         List<IPath> paths =

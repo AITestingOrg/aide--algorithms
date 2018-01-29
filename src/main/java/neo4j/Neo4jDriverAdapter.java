@@ -94,6 +94,18 @@ public class Neo4jDriverAdapter implements IDriverAdapter {
     }
 
     @Override
+    public IRelationship getRelationship(long id) {
+        String query = "MATCH ()-[r]-() WHERE id(r)=%s RETURN r";
+        StatementResult res = driver.session().beginTransaction().run(String.format(query, id));
+
+        if (!res.hasNext()) {
+            return null;
+        }
+        return new Neo4jRelationship(res.next().get("r").asRelationship());
+    }
+
+
+    @Override
     public List<IPath> checkGeneralizedConnection(
         String key1, String value1, String key2, String value2, String rel) {
         String query = "MATCH p = ({%s:\"%s\"})-"

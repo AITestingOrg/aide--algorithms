@@ -27,6 +27,14 @@ public interface IDriverAdapter {
     INode getNode(long id);
 
     /**
+     * Gets an {@link IRelationship} based on its id.
+     *
+     * @param id The id of the relationship to be retrieved.
+     * @return The {@link IRelationship} retrieved.
+     **/
+    IRelationship getRelationship(long id);
+
+    /**
      * Gets all of the {@link INode} directly related to a given node.
      *
      * @param key   The key to check against.
