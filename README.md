@@ -1,7 +1,7 @@
 
-#AIDE--algorithms
+# AIDE--algorithms
 
-#Setup
+# Setup
 
 ### Install Neo4j
 * Download and install from https://neo4j.com/download/?ref=hro
