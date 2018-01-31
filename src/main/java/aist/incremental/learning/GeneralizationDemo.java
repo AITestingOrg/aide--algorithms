@@ -7,6 +7,7 @@ import interfaces.IRelationship;
 
 import java.util.List;
 import neo4j.Neo4jDriverAdapter;
+import neo4j.Neo4jRelationship;
 
 public class GeneralizationDemo {
     private static IDriverAdapter driver;
@@ -19,15 +20,16 @@ public class GeneralizationDemo {
 
     public static void main(String... args) {
         GeneralizationDemo demo = new GeneralizationDemo();
+        driver.cleanLabel("Greeting");
         demo.setGeneralizationStrategy(new GeneralizationWithDirection(
-            "bolt://localhost:7687", "neo4j", "password"));
+            "bolt://localhost:7687", "neo4j", "test"));
+        System.out.println(driver.getNode("car"));
+        List<INode> list = driver.getRelatedNodes("car");
 
-        IRelationship r = driver.getRelationship(2229);
-        System.out.println(r);
-        List<INode> list = driver.getRelatedNodes("name", "car");
-        System.out.println(driver.getRelationshipsBetween("name", "car", "name", "transportation"));
+        List<IRelationship> rels = driver.getRelationshipsBetween("car", "person");
         List<IPath> paths =
-                driver.checkGeneralizedConnection("name", "Toyota", "name", "person", "MOVE");
+                driver.checkGeneralizedConnection("Toyota", "person", "MOVE");
+
         System.out.println();
         for (IPath path : paths) {
             System.out.println("This is one of the paths:");
@@ -37,7 +39,7 @@ public class GeneralizationDemo {
                 System.out.println(driver.getNode(step.endNodeId()).get("name"));
             }
         }
-        System.out.println(demo.checkRelation("name", "Toyota", "name", "person", "MOVE"));
+        System.out.println(demo.checkRelation("Toyota","person", "MOVE"));
         demo.strategy.close();
         driver.close();
     }
@@ -46,7 +48,7 @@ public class GeneralizationDemo {
         this.strategy = strategy;
     }
 
-    boolean checkRelation(String key1, String value1, String key2, String value2, String rel) {
-        return strategy.findIfRelationExists(key1, value1, key2, value2, rel);
+    boolean checkRelation(String value1, String value2, String rel) {
+        return strategy.findIfRelationExists(value1, value2, rel);
     }
 }

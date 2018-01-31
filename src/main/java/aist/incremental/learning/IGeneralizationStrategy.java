@@ -9,7 +9,7 @@ public interface IGeneralizationStrategy {
      *
      * @return The {@link String} value of the type of the Relationship.
      **/
-    boolean findIfRelationExists(String key1, String value1, String key2, String value2, String rel);
+    boolean findIfRelationExists(String value1, String value2, String rel);
 
     /**
      * Closes the driver connection.

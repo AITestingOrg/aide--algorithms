@@ -22,7 +22,8 @@ public class Neo4jRecord implements IRecord {
             return new Neo4jNode(record.get(key).asNode());
         } catch (Uncoercible e) {
             System.out.println("The retrieved Value is not a Node");
-            throw new UncoercibleTypeException("The retrieved Value is not a Node", e.getStackTrace());
+            throw new UncoercibleTypeException(
+                    "The retrieved Value is not a Node", e.getStackTrace());
         }
     }
 
@@ -32,7 +33,8 @@ public class Neo4jRecord implements IRecord {
             return new Neo4jPath(record.get(key).asPath());
         } catch (Uncoercible e) {
             System.out.println("The retrieved Value is not a Path");
-            throw new UncoercibleTypeException("The retrieved Value is not a Path", e.getStackTrace());
+            throw new UncoercibleTypeException(
+                    "The retrieved Value is not a Path", e.getStackTrace());
         }
     }
 
@@ -42,7 +44,8 @@ public class Neo4jRecord implements IRecord {
             return new Neo4jRelationship(record.get(key).asRelationship());
         } catch (Uncoercible e) {
             System.out.println("The retrieved value is not a Relationship");
-            throw new UncoercibleTypeException("The retrieved value is not a Relationship", e.getStackTrace());
+            throw new UncoercibleTypeException(
+                    "The retrieved value is not a Relationship", e.getStackTrace());
         }
     }
 }
