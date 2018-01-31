@@ -12,23 +12,19 @@ import org.junit.Test;
 public class NeoDriverTest {
     private Neo4jDriverAdapter neoDriver;
 
-    private final String firstNode = "test node 1";
-    private final String secondNode = "test node 2";
+    private final String firstNode = "testnode1";
+    private final String secondNode = "testnode2";
     private final String relation = "connected";
 
     @Before
     public void setUp(){
         neoDriver = new Neo4jDriverAdapter("bolt://localhost:7687");
+        neoDriver.runQuery("match (n) detach delete n");
     }
 
     @After
     public void tearDown(){
-        neoDriver.runQuery("MATCH (n {name:\"test node 1\"}) "
-                + "OPTIONAL MATCH (n)-[r]-() "
-                + "DELETE r, n RETURN COUNT(n)");
-        neoDriver.runQuery("MATCH (n {name:\"test node 2\"}) "
-                + "OPTIONAL MATCH (n)-[r]-() "
-                + "DELETE r, n RETURN COUNT(n)");
+        neoDriver.runQuery("match (n) detach delete n");
         neoDriver.close();
     }
 
