@@ -18,13 +18,12 @@ public class RecordThrowsExceptions {
     @Before
     public void setUp(){
         neoDriver = new Neo4jDriverAdapter("bolt://localhost:7687");
+        neoDriver.runQuery("MATCH (n) DETACH DELETE n");
     }
 
     @After
     public void tearDown(){
-        neoDriver.runQuery("MATCH (n) "
-                + "OPTIONAL MATCH (n)-[r]-() "
-                + "DELETE r, n RETURN COUNT(n)");
+        neoDriver.runQuery("MATCH (n) DETACH DELETE n");
         neoDriver.close();
     }
 

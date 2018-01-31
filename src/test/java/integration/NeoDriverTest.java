@@ -2,28 +2,27 @@ package integration;
 
 import interfaces.INode;
 import interfaces.IRelationship;
-import java.util.List;
-
 import neo4j.Neo4jDriverAdapter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class NeoDriverTest {
-    private Neo4jDriverAdapter neoDriver;
+import java.util.List;
 
+public class NeoDriverTest {
     private final String firstNode = "testnode1";
     private final String secondNode = "testnode2";
     private final String relation = "connected";
+    private Neo4jDriverAdapter neoDriver;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         neoDriver = new Neo4jDriverAdapter("bolt://localhost:7687");
         neoDriver.runQuery("match (n) detach delete n");
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         neoDriver.runQuery("match (n) detach delete n");
         neoDriver.close();
     }
@@ -40,7 +39,7 @@ public class NeoDriverTest {
     }
 
     @Test
-    public void getNodeReturnsNode(){
+    public void getNodeReturnsNode() {
         //arrange
         neoDriver.createNode(firstNode);
 
@@ -52,7 +51,7 @@ public class NeoDriverTest {
     }
 
     @Test
-    public void relationshipsAreCreatedAndReturned(){
+    public void relationshipsAreCreatedAndReturned() {
         //arrange
         neoDriver.createNode(firstNode);
         neoDriver.createNode(secondNode);
@@ -66,7 +65,7 @@ public class NeoDriverTest {
     }
 
     @Test
-    public void getRelationshipReturnsRelationship(){
+    public void getRelationshipReturnsRelationship() {
         //arrange
         neoDriver.createNode(firstNode);
         neoDriver.createNode(secondNode);
@@ -80,7 +79,7 @@ public class NeoDriverTest {
     }
 
     @Test
-    public void relationshipsAreDeleted(){
+    public void relationshipsAreDeleted() {
         //arrange
         neoDriver.createNode(firstNode);
         neoDriver.createNode(secondNode);
@@ -94,7 +93,7 @@ public class NeoDriverTest {
     }
 
     @Test
-    public void nodesAreDeleted(){
+    public void nodesAreDeleted() {
         //arrange
         neoDriver.createNode(firstNode);
 
