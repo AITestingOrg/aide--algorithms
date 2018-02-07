@@ -74,10 +74,10 @@ public interface IDriverAdapter {
     /**
      * Updates a relationship across the whole database.
      *
-     * @param oldRel The value of the old relationship to be replaced.
-     * @param newRel The value of the new relationship.
+     * @param oldRelationship The value of the old relationship to be replaced.
+     * @param newRelationship The value of the new relationship.
      **/
-    void updateRelationships(String oldRel, String newRel);
+    void updateRelationships(String oldRelationship, String newRelationship);
 
     /**
      * Runs a query against the database.
