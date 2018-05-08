@@ -1,4 +1,4 @@
-package interfaces;
+package org.aist.semanticnetwork.interfaces;
 
 /**
  * Interface for a Graph path in a graph database.

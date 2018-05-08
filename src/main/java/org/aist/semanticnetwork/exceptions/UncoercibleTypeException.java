@@ -1,4 +1,4 @@
-package exceptions;
+package org.aist.semanticnetwork.exceptions;
 
 public class UncoercibleTypeException extends Exception {
     public UncoercibleTypeException(String message) {

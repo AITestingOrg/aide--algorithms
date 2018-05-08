@@ -1,11 +1,11 @@
-package neo4j;
-
-import interfaces.INode;
-import interfaces.IPath;
-import interfaces.IRelationship;
+package org.aist.semanticnetwork.neo4j;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.aist.semanticnetwork.interfaces.INode;
+import org.aist.semanticnetwork.interfaces.IPath;
+import org.aist.semanticnetwork.interfaces.IRelationship;
 import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Path;
 import org.neo4j.driver.v1.types.Relationship;

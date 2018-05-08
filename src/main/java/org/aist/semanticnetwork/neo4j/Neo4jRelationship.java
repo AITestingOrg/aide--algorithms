@@ -1,6 +1,6 @@
-package neo4j;
+package org.aist.semanticnetwork.neo4j;
 
-import interfaces.IRelationship;
+import org.aist.semanticnetwork.interfaces.IRelationship;
 import org.neo4j.driver.v1.types.Relationship;
 
 public class Neo4jRelationship implements IRelationship {

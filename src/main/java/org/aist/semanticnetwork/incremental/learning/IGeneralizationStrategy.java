@@ -1,4 +1,4 @@
-package aist.incremental.learning;
+package org.aist.semanticnetwork.incremental.learning;
 
 public interface IGeneralizationStrategy {
 

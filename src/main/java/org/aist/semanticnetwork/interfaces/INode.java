@@ -1,4 +1,4 @@
-package interfaces;
+package org.aist.semanticnetwork.interfaces;
 
 /**
  * Interface for a Node in a graph database.

@@ -1,10 +1,10 @@
-package aist.incremental.learning;
+package org.aist.semanticnetwork.incremental.learning;
 
-import interfaces.IDriverAdapter;
-import interfaces.IPath;
+import org.aist.semanticnetwork.interfaces.IDriverAdapter;
+import org.aist.semanticnetwork.interfaces.IPath;
+import org.aist.semanticnetwork.neo4j.Neo4jDriverAdapter;
 
 import java.util.List;
-import neo4j.Neo4jDriverAdapter;
 
 public class GeneralizationWithDirection implements IGeneralizationStrategy {
     private IDriverAdapter driver;

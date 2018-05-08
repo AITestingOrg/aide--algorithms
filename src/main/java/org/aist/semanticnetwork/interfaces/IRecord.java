@@ -1,6 +1,7 @@
-package interfaces;
+package org.aist.semanticnetwork.interfaces;
 
 import exceptions.UncoercibleTypeException;
+import org.aist.semanticnetwork.exceptions.UncoercibleTypeException;
 
 /**
  * Interface for a single record, the result of a query, in a graph database.
@@ -13,7 +14,7 @@ public interface IRecord {
      *
      * @throws UncoercibleTypeException If the retrieved value is not of the expected type.
      * */
-    INode getNode(String key) throws UncoercibleTypeException;
+    INode getNode(String key) throws UncoercibleTypeException, UncoercibleTypeException;
 
     /**
      * Gets the {@link IPath}  associated with a given key in the record.

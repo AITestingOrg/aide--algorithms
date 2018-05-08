@@ -1,21 +1,44 @@
-group 'aide--algorithms'
-version '1.0-SNAPSHOT'
+buildscript {
+	ext {
+		springBootVersion = '2.0.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
 
 apply plugin: 'java'
-apply plugin: 'checkstyle'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 
+group = 'org.aist'
+version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
-    mavenCentral()
+	mavenCentral()
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+
+ext {
+	springCloudVersion = 'Finchley.RC1'
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    compile 'org.neo4j.driver:neo4j-java-driver:1.5.0'
+	compile('org.neo4j.driver:neo4j-java-driver:1.6.1')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+	compile('org.springframework.cloud:spring-cloud-starter-netflix-ribbon')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-checkstyle {
-    toolVersion = "8.7"
-    configFile = new File(rootDir, "checkstyle.xml")
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }

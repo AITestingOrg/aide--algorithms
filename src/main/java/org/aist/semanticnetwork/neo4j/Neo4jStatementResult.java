@@ -1,9 +1,8 @@
-package neo4j;
-
-import interfaces.IRecord;
-import interfaces.IStatementResult;
+package org.aist.semanticnetwork.neo4j;
 
 import java.util.List;
+
+import org.aist.semanticnetwork.interfaces.IStatementResult;
 import org.neo4j.driver.v1.StatementResult;
 
 public class Neo4jStatementResult implements IStatementResult {

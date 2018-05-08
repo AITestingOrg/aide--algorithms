@@ -1,13 +1,12 @@
-package aist.incremental.learning;
+package org.aist.semanticnetwork.incremental.learning;
 
-import interfaces.IDriverAdapter;
-import interfaces.INode;
-import interfaces.IPath;
-import interfaces.IRelationship;
+import org.aist.semanticnetwork.interfaces.IDriverAdapter;
+import org.aist.semanticnetwork.interfaces.INode;
+import org.aist.semanticnetwork.interfaces.IPath;
+import org.aist.semanticnetwork.interfaces.IRelationship;
+import org.aist.semanticnetwork.neo4j.Neo4jDriverAdapter;
 
 import java.util.List;
-import neo4j.Neo4jDriverAdapter;
-import neo4j.Neo4jRelationship;
 
 public class GeneralizationDemo {
     private static IDriverAdapter driver;

@@ -1,4 +1,4 @@
-package interfaces;
+package org.aist.semanticnetwork.interfaces;
 
 public interface IRelationship {
 

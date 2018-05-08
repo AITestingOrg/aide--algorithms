@@ -1,4 +1,4 @@
-package interfaces;
+package org.aist.semanticnetwork.interfaces;
 
 import java.util.List;
 

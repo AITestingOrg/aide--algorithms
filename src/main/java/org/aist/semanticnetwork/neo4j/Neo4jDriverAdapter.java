@@ -1,10 +1,14 @@
-package neo4j;
+package org.aist.semanticnetwork.neo4j;
 
 import static org.neo4j.driver.v1.Values.parameters;
 
-import interfaces.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.aist.semanticnetwork.interfaces.IDriverAdapter;
+import org.aist.semanticnetwork.interfaces.INode;
+import org.aist.semanticnetwork.interfaces.IPath;
+import org.aist.semanticnetwork.interfaces.IRelationship;
 import org.neo4j.driver.v1.*;
 import org.neo4j.driver.v1.types.Node;
 import org.neo4j.driver.v1.types.Relationship;

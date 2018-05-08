@@ -1,11 +1,10 @@
-package neo4j;
+package org.aist.semanticnetwork.neo4j;
 
-import exceptions.UncoercibleTypeException;
-import interfaces.INode;
-import interfaces.IPath;
-import interfaces.IRecord;
-import interfaces.IRelationship;
-
+import org.aist.semanticnetwork.exceptions.UncoercibleTypeException;
+import org.aist.semanticnetwork.interfaces.INode;
+import org.aist.semanticnetwork.interfaces.IPath;
+import org.aist.semanticnetwork.interfaces.IRecord;
+import org.aist.semanticnetwork.interfaces.IRelationship;
 import org.neo4j.driver.v1.Record;
 import org.neo4j.driver.v1.exceptions.value.Uncoercible;
 

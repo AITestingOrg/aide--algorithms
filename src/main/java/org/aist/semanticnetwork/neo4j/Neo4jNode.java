@@ -1,6 +1,6 @@
-package neo4j;
+package org.aist.semanticnetwork.neo4j;
 
-import interfaces.INode;
+import org.aist.semanticnetwork.interfaces.INode;
 import org.neo4j.driver.v1.types.Node;
 
 public class Neo4jNode implements INode {
