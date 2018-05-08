@@ -13,7 +13,7 @@ import org.neo4j.driver.v1.types.Relationship;
 public class Neo4jPath implements IPath {
     private Path path;
 
-    Neo4jPath(Path path) {
+    public Neo4jPath(Path path) {
         this.path = path;
     }
 

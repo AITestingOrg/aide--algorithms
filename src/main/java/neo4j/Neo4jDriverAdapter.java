@@ -1,14 +1,29 @@
 package neo4j;
 
-import interfaces.*;
+import static org.neo4j.driver.v1.Values.parameters;
 
+import interfaces.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.neo4j.driver.v1.*;
+import org.neo4j.driver.v1.types.Node;
+import org.neo4j.driver.v1.types.Relationship;
+
+
 
 public class Neo4jDriverAdapter implements IDriverAdapter {
-    private final Driver driver;
 
+    private Driver driver;
+    private final String ID = "id";
+    private final String VALUE1 = "value1";
+    private final String VALUE2 = "value2";
+    private final String FROM = "from";
+    private final String TO = "to";
+    private final String N = "n";
+    private final String M = "m";
+    private final String P = "p";
+    private final String R = "r";
+    
     public Neo4jDriverAdapter(String uri, String user, String password) {
         driver = GraphDatabase.driver(uri, AuthTokens.basic(user, password));
     }
@@ -23,137 +38,201 @@ public class Neo4jDriverAdapter implements IDriverAdapter {
     }
 
     @Override
-    public INode getNode(String key, String value) {
-        StatementResult res = driver.session().beginTransaction()
-                .run("MATCH (n {" + key + ":\"" + value + "\"})RETURN n");
+    public INode getNode(String value) {
+        try (Session session = driver.session()) {
+            StatementResult res = session.run("MATCH (n {name:{value1}}) RETURN n",
+                            parameters(VALUE1, value));
 
-        if (!res.hasNext()) {
-            return null;
+            if (!res.hasNext()) {
+                return null;
+            }
+            Node n = res.single().get(N).asNode();
+            return new Neo4jNode(n);
         }
-        return new Neo4jNode(res.single().get(0).asNode());
     }
 
     @Override
     public INode getNode(long id) {
-        String query = "MATCH (n) WHERE id(n)= %s RETURN n";
-        StatementResult res = driver.session().beginTransaction().run(String.format(query, id));
+        try (Session session = driver.session()) {
+            StatementResult res = session.run("MATCH (n) WHERE id(n)={id} RETURN n",
+                    parameters(ID, id));
 
-        if (!res.hasNext()) {
-            return null;
+            if (!res.hasNext()) {
+                return null;
+            }
+            Node n = res.single().get(0).asNode();
+            return new Neo4jNode(n);
         }
-        return new Neo4jNode(res.single().get(0).asNode());
     }
 
     @Override
-    public List<INode> getRelatedNodes(String key, String value) {
-        String query = "MATCH (n {%s:\"%s\"})--(m) RETURN n,m";
-        String fullQuery = String.format(query, key, value);
-        System.out.println("Getting related nodes:\n" + fullQuery);
-        StatementResult res = driver.session().beginTransaction().run(fullQuery);
+    public List<INode> getRelatedNodes(String value) {
+        String query = "MATCH (n {name:{value1}})--(m) RETURN n,m";
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query, parameters(VALUE1, value));
 
-        List<INode> nodeSet = new ArrayList<>();
-        if (!res.hasNext()) {
+            List<INode> nodeSet = new ArrayList<>();
+            if (!res.hasNext()) {
+                return nodeSet;
+            }
+
+            nodeSet.add(new Neo4jNode(res.peek().get(N).asNode()));
+            while (res.hasNext()) {
+                Record record = res.next();
+                nodeSet.add(new Neo4jNode(record.get(M).asNode()));
+            }
             return nodeSet;
         }
-
-        nodeSet.add(new Neo4jNode(res.peek().get("n").asNode()));
-        while (res.hasNext()) {
-            Record record = res.next();
-            nodeSet.add(new Neo4jNode(record.get("m").asNode()));
-        }
-        return nodeSet;
     }
 
     @Override
-    public List<IRelationship> getRelationshipsToNode(String key, String value) {
-        String query = "MATCH (n {%s:\"%s\"})-[r]-(m) RETURN n,m,r;";
-        String fullQuery = String.format(query, key, value);
-        System.out.println("Getting relationship:\n" + fullQuery);
-        StatementResult res = driver.session().beginTransaction().run(fullQuery);
+    public List<IRelationship> getRelationshipsToNode(String value) {
+        String query = "MATCH (n {name:{value1}})-[r]-(m) RETURN n,m,r;";
 
-        List<IRelationship> relations = new ArrayList<>();
-        while (res.hasNext()) {
-            relations.add(new Neo4jRelationship(res.next().get("r").asRelationship()));
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query, parameters(VALUE1, value));
+
+            List<IRelationship> relations = new ArrayList<>();
+            while (res.hasNext()) {
+                relations.add(new Neo4jRelationship(res.next().get(R).asRelationship()));
+            }
+            return relations;
         }
-        return relations;
     }
 
     @Override
-    public List<IRelationship> getRelationshipsBetween(
-        String key1, String value1, String key2, String value2) {
-        String query = "MATCH (n {%s:\"%s\"})-[r]-(m {%s:\"%s\" }) RETURN n,m,r;";
-        String fullQuery = String.format(query, key1, value1, key2, value2);
-        System.out.println("Getting relationships:\n" + fullQuery);
-        StatementResult res = driver.session().beginTransaction().run(fullQuery);
+    public List<IRelationship> getRelationshipsBetween(String value1, String value2) {
+        String query = "MATCH (n {name:{value1}})-[r]-(m {name:{value2}}) RETURN n,m,r;";
 
-        List<IRelationship> relations = new ArrayList<>();
-        while (res.hasNext()) {
-            relations.add(new Neo4jRelationship(res.next().get("r").asRelationship()));
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query,
+                    parameters(VALUE1, value1, VALUE2, value2));
+
+
+            List<IRelationship> relations = new ArrayList<>();
+            while (res.hasNext()) {
+                Relationship r = res.next().get(R).asRelationship();
+                relations.add(new Neo4jRelationship(r));
+            }
+            return relations;
         }
-        return relations;
     }
 
     @Override
     public IRelationship getRelationship(long id) {
-        String query = "MATCH ()-[r]-() WHERE id(r)=%s RETURN r";
-        StatementResult res = driver.session().beginTransaction().run(String.format(query, id));
 
-        if (!res.hasNext()) {
-            return null;
+        try (Session session = driver.session()) {
+            StatementResult res = session.run("MATCH ()-[r]-() WHERE id(r)={id} RETURN r",
+                    parameters(ID, id));
+
+            if (!res.hasNext()) {
+                return null;
+            }
+            return new Neo4jRelationship(res.next().get(R).asRelationship());
         }
-        return new Neo4jRelationship(res.next().get("r").asRelationship());
     }
 
-
+    /* This method will generalize the node entities by traversing "BE" relationships up until it
+     finds the desired relationship in between two of the generalized concepts.
+     */
     @Override
-    public List<IPath> checkGeneralizedConnection(
-        String key1, String value1, String key2, String value2, String rel) {
-        String query = "MATCH p = ({%s:\"%s\"})-"
-                + "[:BE*0..7]->()-[:%s]->()<-[:BE*0..7]-({%s:\"%s\"}) RETURN p;";
-        System.out.println(String.format(query, key1, value1, rel, key2, value2));
-        StatementResult res = driver.session().beginTransaction().run(
-                String.format(query, key1, value1, rel, key2, value2));
-        List<IPath> paths = new ArrayList<>();
-        System.out.println(res);
+    public List<IPath> checkGeneralizedConnection(String from, String to, String rel) {
+        String query = "MATCH p = ({name:{value1}})-"
+                + "[:BE*0..7]->()-[:%s]->()<-[:BE*0..7]-({name:{value2}}) RETURN p;";
+        query = String.format(query, rel);
 
-        while (res.hasNext()) {
-            Record record = res.next();
-            paths.add(new Neo4jPath(record.get("p").asPath()));
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query,
+                    parameters(VALUE1, from, VALUE2, to));
+            List<IPath> paths = new ArrayList<>();
 
+            while (res.hasNext()) {
+                Record record = res.next();
+                paths.add(new Neo4jPath(record.get(P).asPath()));
+
+            }
+            return paths;
         }
-        return paths;
     }
 
     @Override
-    public void updateRelationships(String oldRel, String newRel) {
+    public void updateRelationships(String oldRelationship, String newRelationship) {
         String query = "MATCH (n)-[r:%s]->(m) CREATE (n)-[r2:%s]->(m) SET r2 = r WITH r DELETE r;";
-        driver.session().beginTransaction().run(String.format(query, oldRel, newRel));
+
+        try (Session session = driver.session()) {
+            session.run(String.format(query, oldRelationship, newRelationship));
+        }
     }
 
     @Override
-    public int deleteRelationship(
-        String key1, String value1, String key2, String value2, String rel) {
-        String query = "MATCH (n {%s:\"%s\"})-[r:%s]->(m {%s:\"%s\" }) DELETE r RETURN COUNT(r);";
-        String fullQuery = String.format(query, key1, value1, rel, key2, value2);
-        System.out.println("Deleting relationship\n" + fullQuery);
-        StatementResult res = driver.session().beginTransaction().run(fullQuery);
-        return res.single().get(0).asInt();
+    public Neo4jStatementResult runQuery(String query) {
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query);
+            return new Neo4jStatementResult(res);
+        }
     }
 
     @Override
-    public IStatementResult runQuery(String query) {
-        StatementResult res = driver.session().beginTransaction().run(query);
-        return new Neo4jStatementResult(res);
+    public Neo4jNode createNode(String value) {
+        String query = "CREATE (n {name:{value1}}) return n";
+
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query, parameters(VALUE1, value));
+            return new Neo4jNode(res.single().get(0).asNode());
+        }
     }
 
     @Override
-    public void createRelationship(
-        String key1, String value1, String key2, String value2, String rel) {
-        String query = "MATCH (n {%s:\"%s\"}), (m {%s:\"%s\"})\n"
-                + "CREATE (n)-[:%s]->(m)";
-        String fullQuery = String.format(query, key1, value1, key2, value2, rel);
-        System.out.println("Creating new relationship\n" + fullQuery);
-        driver.session().beginTransaction().run(fullQuery);
+    public Neo4jRelationship createRelationship(String fromNode, String toNode, String rel) {
+        String query = "MATCH (n {name:{from}}), (m {name:{to}})\n"
+                + "CREATE (n)-[r:%s]->(m)\n"
+                + "RETURN r";
+        query = String.format(query, rel);
+
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query,
+                    parameters(FROM, fromNode, TO, toNode));
+
+            return new Neo4jRelationship(res.single().get(0).asRelationship());
+        }
+    }
+
+    @Override
+    public int deleteNode(String value) {
+        String query = "MATCH (n {name:{value1}}) "
+                + "OPTIONAL MATCH (n)-[r]-() "
+                + "DELETE r, n RETURN COUNT(n);";
+
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query,
+                    parameters(VALUE1, value));
+            return res.single().get(0).asInt();
+        }
+    }
+
+    @Override
+    public int deleteRelationship(String fromNode, String toNode, String rel) {
+        String query = "MATCH (n {name:{from}})-[r:%s]->(m {name:{to}}) "
+                     + "DELETE r RETURN COUNT(r);";
+        query = String.format(query, rel);
+
+        try (Session session = driver.session()) {
+            StatementResult res = session.run(query,
+                    parameters(FROM, fromNode, TO, toNode));
+            return res.single().get(0).asInt();
+        }
+    }
+
+    @Override
+    public void cleanLabel(String label){
+        String query = "MATCH (n:%s) "
+                     + "OPTIONAL MATCH (n)-[r]-() "
+                     + "DELETE n,r";
+        String fullQuery = String.format(query, label);
+
+        try (Session session = driver.session()) {
+            session.run(fullQuery);
+        }
     }
 }
 

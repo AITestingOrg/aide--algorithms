@@ -13,7 +13,7 @@ public class Neo4jStatementResult implements IStatementResult {
         this.statementResult = statementResult;
     }
 
-    public IRecord single() {
+    public Neo4jRecord single() {
         return new Neo4jRecord(statementResult.single());
     }
 
@@ -21,11 +21,11 @@ public class Neo4jStatementResult implements IStatementResult {
         return statementResult.hasNext();
     }
 
-    public IRecord next() {
+    public Neo4jRecord next() {
         return new Neo4jRecord(statementResult.next());
     }
 
-    public IRecord peek() {
+    public Neo4jRecord peek() {
         return new Neo4jRecord(statementResult.peek());
     }
 

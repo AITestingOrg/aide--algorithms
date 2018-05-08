@@ -14,8 +14,8 @@ public class GeneralizationWithDirection implements IGeneralizationStrategy {
     }
 
     @Override
-    public boolean findIfRelationExists(String key1, String value1, String key2, String value2, String rel) {
-        List<IPath> results = driver.checkGeneralizedConnection(key1, value1, key2, value2, rel);
+    public boolean findIfRelationExists(String node1Value, String node2Value, String rel) {
+        List<IPath> results = driver.checkGeneralizedConnection(node1Value, node2Value, rel);
         return !results.isEmpty();
     }
 

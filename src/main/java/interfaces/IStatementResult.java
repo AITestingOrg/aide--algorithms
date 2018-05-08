@@ -11,7 +11,7 @@ public interface IStatementResult {
     IRecord single();
 
     /**
-     * Checks if there are any more records present
+     * Checks if there are any more records present.
      *
      * @return {@link Boolean} True if there are records.
      **/
